@@ -1,3 +1,4 @@
 import './style.css';
+import domManipulator from './modules/domManipulator';
 
-console.log('helööö');
+domManipulator();

@@ -1,4 +1,7 @@
 import taskButton from '../img/plus-circle.svg';
+import today from '../img/today.svg';
+import inbox from '../img/inbox.svg';
+import upcoming from '../img/upcoming.svg';
 
 // Selects an element in the dom by css selectors
 function elementSelector(selector) {
@@ -220,11 +223,19 @@ export default function mainPageCreator() {
   const inboxDiv = newElementCreator('div');
   const todayDiv = newElementCreator('div');
   const upcomingDiv = newElementCreator('div');
+  const inboxSvg = newElementCreator('img');
+  const todaySvg = newElementCreator('img');
+  const upcomingSvg = newElementCreator('img');
+  const inboxText = newElementCreator('div');
 
+  // Populate inboxDiv
   addClass(inboxDiv, 'inbox-div');
   appendElement(timeBasedContainer, inboxDiv);
-  addClass(todayDiv, 'today-div');
-  appendElement(timeBasedContainer, todayDiv);
-  addClass(upcomingDiv, 'upcoming-div');
-  appendElement(timeBasedContainer, upcomingDiv);
+
+  addSrc(inboxSvg, inbox);
+  addAlt(inboxSvg, 'Postbox sign');
+  appendElement(inboxDiv, inboxSvg);
+
+  addContent(inboxText, 'Inbox');
+  appendElement(inboxDiv, inboxText);
 }

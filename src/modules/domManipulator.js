@@ -1,3 +1,5 @@
+import taskButton from '../img/plus-circle.svg';
+
 // Selects an element in the dom by css selectors
 function elementSelector(selector) {
   const selectedElement = document.querySelector(selector);
@@ -25,6 +27,11 @@ function appendElement(parent, child) {
   parent.appendChild(child);
 }
 
+// Add src to an element
+function addSrc(element, source) {
+  element.src = source;
+}
+
 export default function domManipulator() {
   // Selecting main content div
   const contentDiv = elementSelector('#content');
@@ -47,4 +54,13 @@ export default function domManipulator() {
   addClass(footer, 'footer');
   addContent(footer, 'The Odin Project 2023 - coded by oguzhan-ulutas');
   appendElement(contentDiv, footer);
+
+  // Add new task button
+  const newTaskButton = newElementCreator('button');
+  const taskButtonSvg = newElementCreator('img');
+  addClass(newTaskButton, 'new-task-button');
+  addClass(taskButtonSvg, 'task-button-svg');
+  addSrc(taskButtonSvg, taskButton);
+  appendElement(header, newTaskButton);
+  appendElement(newTaskButton, taskButtonSvg);
 }

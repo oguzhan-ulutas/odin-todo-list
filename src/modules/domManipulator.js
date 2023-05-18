@@ -27,9 +27,19 @@ function appendElement(parent, child) {
   parent.appendChild(child);
 }
 
-// Add src to an element
+// Adds src to an element
 function addSrc(element, source) {
   element.src = source;
+}
+
+// Adds alt attribute to an img element
+function addAlt(element, alternativeText) {
+  element.alt = alternativeText;
+}
+
+// Adds title attribute to an element
+function AddTitle(element, titleAttribute) {
+  element.title = titleAttribute;
 }
 
 export default function domManipulator() {
@@ -56,11 +66,15 @@ export default function domManipulator() {
   appendElement(contentDiv, footer);
 
   // Add new task button
-  const newTaskButton = newElementCreator('button');
+  const addNewTaskButton = newElementCreator('button');
   const taskButtonSvg = newElementCreator('img');
-  addClass(newTaskButton, 'new-task-button');
+  addClass(addNewTaskButton, 'new-task-button');
   addClass(taskButtonSvg, 'task-button-svg');
   addSrc(taskButtonSvg, taskButton);
-  appendElement(header, newTaskButton);
-  appendElement(newTaskButton, taskButtonSvg);
+  addAlt(addNewTaskButton, 'plus sing');
+  AddTitle(addNewTaskButton, 'Add new task');
+  appendElement(header, addNewTaskButton);
+  appendElement(addNewTaskButton, taskButtonSvg);
+
+  // Add nav containers
 }

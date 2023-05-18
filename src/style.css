@@ -28,8 +28,9 @@ body {
   color: white;
   font-size: 4vh;
   padding-left: 6vh;
+  padding-right: 6vh;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -48,4 +49,21 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.new-task-button {
+  border: none;
+  background: none;
+}
+
+.task-button-svg {
+  width: 8vh;
+  padding: none;
+  margin: none;
+  transition: all ease-in-out 0.1s;
+  cursor: pointer;
+}
+
+.task-button-svg:hover {
+  width: 12vh;
 }

@@ -32,7 +32,7 @@ export default function domManipulator() {
   // Create main divs
   const header = newElementCreator('div');
   addClass(header, 'header');
-  addContent(header, 'to-do');
+  addContent(header, 'to-do list');
   appendElement(contentDiv, header);
 
   const nav = newElementCreator('div');

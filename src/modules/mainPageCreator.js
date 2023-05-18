@@ -14,7 +14,7 @@ function newElementCreator(tag) {
 
 // Adds class to an element
 function addClass(element, elementClass) {
-  element.classList.value = elementClass;
+  element.classList.add(elementClass);
 }
 
 // Adds content
@@ -72,6 +72,11 @@ function addValue(element, valueAttribute) {
   element.value = valueAttribute;
 }
 
+// Removes  a class from classList
+function removeClass(element, elementClass) {
+  element.classList.remove(elementClass);
+}
+
 export default function mainPageCreator() {
   // Selecting main content div
   const contentDiv = elementSelector('#content');
@@ -105,14 +110,6 @@ export default function mainPageCreator() {
   AddTitle(addNewTaskButton, 'Add new task');
   appendElement(header, addNewTaskButton);
   appendElement(addNewTaskButton, taskButtonSvg);
-
-  // Add nav containers
-  const timeBasedContainer = newElementCreator('div');
-  const projectsContainer = newElementCreator('div');
-  addClass(timeBasedContainer, 'time-based-container');
-  addClass(projectsContainer, 'projects-container');
-  appendElement(nav, timeBasedContainer);
-  appendElement(nav, projectsContainer);
 
   // Add new to do popup form container
   const toDoFormContainer = newElementCreator('div');
@@ -193,4 +190,41 @@ export default function mainPageCreator() {
   addType(cancelButton, 'reset');
   addContent(cancelButton, 'Cancel');
   appendElement(buttonContainer, cancelButton);
+
+  // Add overlay div for making darker backround when form is open
+  const overlayDiv = newElementCreator('div');
+  addId(overlayDiv, 'overlay');
+  appendElement(contentDiv, overlayDiv);
+
+  // Open form when addNewTaskButton clicked
+  addNewTaskButton.addEventListener('click', () => {
+    addClass(toDoFormContainer, 'active');
+    addClass(overlayDiv, 'active');
+  });
+
+  // Close form when cancelButton clicked
+  cancelButton.addEventListener('click', () => {
+    removeClass(toDoFormContainer, 'active');
+    removeClass(overlayDiv, 'active');
+  });
+
+  // Add nav containers
+  const timeBasedContainer = newElementCreator('div');
+  const projectsContainer = newElementCreator('div');
+  addClass(timeBasedContainer, 'time-based-container');
+  addClass(projectsContainer, 'projects-container');
+  appendElement(nav, timeBasedContainer);
+  appendElement(nav, projectsContainer);
+
+  // Populate timeBasedContainer
+  const inboxDiv = newElementCreator('div');
+  const todayDiv = newElementCreator('div');
+  const upcomingDiv = newElementCreator('div');
+
+  addClass(inboxDiv, 'inbox-div');
+  appendElement(timeBasedContainer, inboxDiv);
+  addClass(todayDiv, 'today-div');
+  appendElement(timeBasedContainer, todayDiv);
+  addClass(upcomingDiv, 'upcoming-div');
+  appendElement(timeBasedContainer, upcomingDiv);
 }

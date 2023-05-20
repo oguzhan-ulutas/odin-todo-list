@@ -141,3 +141,32 @@ body {
   opacity: 1;
   pointer-events: all;
 }
+
+/* Navbar style*/
+.nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5vh;
+}
+
+.time-based-container {
+  margin-top: 5vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  padding-left: 1vh;
+}
+
+.time-based-container div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 3vh;
+
+  font-size: 13px;
+}
+
+.projects-container {
+  padding-left: 1vh;
+}

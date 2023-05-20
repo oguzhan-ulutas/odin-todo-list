@@ -214,6 +214,7 @@ export default function mainPageCreator() {
   // Add nav containers
   const timeBasedContainer = newElementCreator('div');
   const projectsContainer = newElementCreator('div');
+  console.log(projectsContainer);
   addClass(timeBasedContainer, 'time-based-container');
   addClass(projectsContainer, 'projects-container');
   appendElement(nav, timeBasedContainer);
@@ -266,5 +267,5 @@ export default function mainPageCreator() {
   // Populate projectsDiv
   const projectsTitle = newElementCreator('h3');
   addContent(projectsTitle, 'Projects');
-  appendElement(projectsTitle, projectsContainer);
+  appendElement(projectsContainer, projectsTitle);
 }

@@ -1,3 +1,1 @@
-const withoutProjectToDos = [];
-const projectToDos = [];
-const projectList = [];
+function p

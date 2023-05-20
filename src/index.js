@@ -1,4 +1,4 @@
 import './style.css';
-import mainPageCreator from './modules/mainPageCreator';
+import domManipulator from './modules/domManipulator';
 
-mainPageCreator();
+domManipulator();

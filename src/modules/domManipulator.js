@@ -2,6 +2,11 @@ import taskButton from '../img/plus-circle.svg';
 import today from '../img/today.svg';
 import inbox from '../img/inbox.svg';
 import upcoming from '../img/upcoming.svg';
+import add_project from '../img/add_project.svg';
+import { toDoFactory } from './toDOCreator';
+
+const toDos = [];
+const projectList = [];
 
 // Selects an element in the dom by css selectors
 function elementSelector(selector) {
@@ -80,7 +85,26 @@ function removeClass(element, elementClass) {
   element.classList.remove(elementClass);
 }
 
-export default function mainPageCreator() {
+// Gets form data and creats a to do object
+function getFormData() {
+  const getFormData = document.querySelector('.to-do-form');
+  getFormData.addEventListener('submit', (e) => {
+    e.preventDefault();
+    console.log(e.target[1].value);
+    const toDo = toDoFactory(
+      e.target[1].value,
+      e.target[2].value,
+      e.target[3].value,
+      e.target[4].value,
+      e.target[5].value,
+      e.target[6].value,
+    );
+    toDos.push(toDo);
+    console.log(toDos);
+  });
+}
+
+export default function domManipulator() {
   // Selecting main content div
   const contentDiv = elementSelector('#content');
 
@@ -214,7 +238,6 @@ export default function mainPageCreator() {
   // Add nav containers
   const timeBasedContainer = newElementCreator('div');
   const projectsContainer = newElementCreator('div');
-  console.log(projectsContainer);
   addClass(timeBasedContainer, 'time-based-container');
   addClass(projectsContainer, 'projects-container');
   appendElement(nav, timeBasedContainer);
@@ -265,7 +288,22 @@ export default function mainPageCreator() {
   appendElement(upcomingDiv, upcomingText);
 
   // Populate projectsDiv
+  const projectsTitleDiv = newElementCreator('div');
+  addClass(projectsTitleDiv, 'projects-title-div');
+  appendElement(projectsContainer, projectsTitleDiv);
   const projectsTitle = newElementCreator('h3');
   addContent(projectsTitle, 'Projects');
-  appendElement(projectsContainer, projectsTitle);
+  appendElement(projectsTitleDiv, projectsTitle);
+  const addNewProjectButton = newElementCreator('button');
+  const projectButtonSvg = newElementCreator('img');
+  addClass(addNewProjectButton, 'new-project-button');
+  addClass(projectButtonSvg, 'project-button-svg');
+  addSrc(projectButtonSvg, add_project);
+  addAlt(addNewProjectButton, 'plus sing');
+  AddTitle(addNewProjectButton, 'Add new project');
+  appendElement(projectsTitleDiv, addNewProjectButton);
+  appendElement(addNewProjectButton, projectButtonSvg);
+
+  //
+  getFormData();
 }

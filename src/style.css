@@ -51,7 +51,8 @@ body {
   align-items: center;
 }
 
-.new-task-button {
+.new-task-button,
+.new-project-button {
   border: none;
   background: none;
 }
@@ -169,4 +170,13 @@ body {
 
 .projects-container {
   padding-left: 1vh;
+}
+
+#content > div.nav > div.projects-container > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.project-button-svg:hover {
+  width: 5vh;
 }

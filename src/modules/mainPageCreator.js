@@ -227,6 +227,8 @@ export default function mainPageCreator() {
   const todaySvg = newElementCreator('img');
   const upcomingSvg = newElementCreator('img');
   const inboxText = newElementCreator('div');
+  const todayText = newElementCreator('div');
+  const upcomingText = newElementCreator('div');
 
   // Populate inboxDiv
   addClass(inboxDiv, 'inbox-div');
@@ -238,4 +240,31 @@ export default function mainPageCreator() {
 
   addContent(inboxText, 'Inbox');
   appendElement(inboxDiv, inboxText);
+
+  // Populate todayDiv
+  addClass(todayDiv, 'today-div');
+  appendElement(timeBasedContainer, todayDiv);
+
+  addSrc(todaySvg, today);
+  addAlt(todaySvg, 'Calender sign');
+  appendElement(todayDiv, todaySvg);
+
+  addContent(todayText, 'Today');
+  appendElement(todayDiv, todayText);
+
+  // Populate upcomingDiv
+  addClass(upcomingDiv, 'upcoming-div');
+  appendElement(timeBasedContainer, upcomingDiv);
+
+  addSrc(upcomingSvg, upcoming);
+  addAlt(upcomingSvg, 'Printer sign');
+  appendElement(upcomingDiv, upcomingSvg);
+
+  addContent(upcomingText, 'Upcoming');
+  appendElement(upcomingDiv, upcomingText);
+
+  // Populate projectsDiv
+  const projectsTitle = newElementCreator('h3');
+  addContent(projectsTitle, 'Projects');
+  appendElement(projectsTitle, projectsContainer);
 }

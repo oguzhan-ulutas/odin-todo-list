@@ -80,7 +80,7 @@ body {
   font-size: 2rem;
   background-color: #246fe0;
   padding: 2rem;
-  max-width: 60%;
+  max-width: 80%;
   border-radius: 10px;
 }
 
@@ -90,11 +90,14 @@ body {
   justify-content: space-between;
   gap: 1rem;
   border-radius: 1rem;
+  padding: 2rem;
+  min-width: 40%;
 }
 .to-do-form-fieldset input,
 .to-do-form-fieldset select {
   border-radius: 3px;
   border: none;
+  height: 4vh;
 }
 
 .form-buttons {

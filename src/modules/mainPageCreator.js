@@ -3,10 +3,10 @@ import today from '../img/today.svg';
 import inbox from '../img/inbox.svg';
 import upcoming from '../img/upcoming.svg';
 import add_project from '../img/add_project.svg';
-import { toDoFactory } from './toDOCreator';
+import { toDoFactory } from './toDoCreator';
 
 const toDos = [];
-const projectList = [];
+const projects = {};
 
 // Selects an element in the dom by css selectors
 function elementSelector(selector) {
@@ -87,8 +87,8 @@ function removeClass(element, elementClass) {
 
 // Gets form data and creats a to do object
 function getFormData() {
-  const getFormData = document.querySelector('.to-do-form');
-  getFormData.addEventListener('submit', (e) => {
+  const form = document.querySelector('.to-do-form');
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
     console.log(e.target[1].value);
     const toDo = toDoFactory(
@@ -100,11 +100,30 @@ function getFormData() {
       e.target[6].value,
     );
     toDos.push(toDo);
-    console.log(toDos);
+    removeClass(document.querySelector('.to-do-form-container'), 'active');
+    removeClass(document.querySelector('#overlay'), 'active');
   });
 }
 
-export default function domManipulator() {
+// Adds a project to form project element as select
+function addProjectToForm(projectName) {
+  const projectSelection = document.querySelector('.project-select');
+  const option = newElementCreator('option');
+  addContent(option, `${projectName}`);
+  addValue(option, `${projectName}`);
+  appendElement(projectSelection, option);
+}
+
+// Adds new project to projectList
+function addProject(buttonName) {
+  buttonName.addEventListener('click', () => {
+    const projectName = prompt('Please enter new project name');
+    projects[projectName] = [];
+    addProjectToForm(projectName);
+  });
+}
+
+export default function mainPageCreator() {
   // Selecting main content div
   const contentDiv = elementSelector('#content');
 
@@ -203,7 +222,8 @@ export default function domManipulator() {
   appendElement(priority, optionHigh);
 
   const projectSelection = newElementCreator('select');
-  addName(projectSelection, 'task-priority');
+  addName(projectSelection, 'project-selection');
+  addClass(projectSelection, 'project-select');
   appendElement(toDoFormFieldset, projectSelection);
 
   const buttonContainer = newElementCreator('div');
@@ -218,7 +238,7 @@ export default function domManipulator() {
   addContent(cancelButton, 'Cancel');
   appendElement(buttonContainer, cancelButton);
 
-  // Add overlay div for making darker backround when form is open
+  // Add overlay div for making darker background when form is open
   const overlayDiv = newElementCreator('div');
   addId(overlayDiv, 'overlay');
   appendElement(contentDiv, overlayDiv);
@@ -304,6 +324,9 @@ export default function domManipulator() {
   appendElement(projectsTitleDiv, addNewProjectButton);
   appendElement(addNewProjectButton, projectButtonSvg);
 
-  //
+  // Geting new task form data and creating an object from it
   getFormData();
+
+  // Adding new project
+  addProject(addNewProjectButton);
 }

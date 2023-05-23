@@ -1,20 +1,23 @@
 const toDos = [];
 
-const toDoFactory = (title, description, notes, dueDate, priority, projectName) => {
-const proto ={
-    addToDoToList: (toDo) => {
-  toDos.push(toDo)
-}
+const toDoFactory = (title, description, notes, dueDate, priority, projectName) =>
+  //   const proto = {};
 
-    return Object.assign({},{
-  title,
-  description,
-  dueDate,
-  priority,
-  notes,
-  projectName,
-}, proto)
-};
-
-
+  ({
+    title,
+    description,
+    notes,
+    dueDate,
+    priority,
+    projectName,
+  });
 export { toDoFactory };
+
+const asd = {
+  description: 'asd',
+  dueDate: '2023-05-18',
+  notes: 'asd',
+  priority: 'low',
+  projectName: '',
+  title: 'asd',
+};

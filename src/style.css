@@ -58,7 +58,8 @@ body {
 }
 
 .new-task-button,
-.new-project-button {
+.new-project-button,
+.delete-button {
   border: none;
   background: none;
 }

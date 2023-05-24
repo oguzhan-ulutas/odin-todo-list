@@ -5,7 +5,7 @@ import upcoming from '../img/upcoming.svg';
 import add_project from '../img/add_project.svg';
 import trash from '../img/trash.svg';
 
-const toDos = [];
+let toDos = [];
 
 // Selects an element in the dom by css selectors
 function elementSelector(selector) {
@@ -108,6 +108,7 @@ function getFormData() {
       e.target[6].value,
     );
     toDos.push(toDo);
+    storeToDos();
     toDoCardCreator(toDo);
     removeClass(document.querySelector('.to-do-form-container'), 'active');
     removeClass(document.querySelector('#overlay'), 'active');
@@ -136,7 +137,6 @@ function addProjectToDom(projectName) {
     clearCards();
     toDos.forEach((toDo) => {
       if (projectName === toDo.projectName) {
-        console.log(toDo.projectName);
         toDoCardCreator(toDo);
       }
     });
@@ -191,6 +191,29 @@ function clearCards() {
   while (mainContainer.firstChild) {
     mainContainer.removeChild(mainContainer.firstChild);
   }
+}
+
+// Local storage functions for ToDos
+function storeToDos() {
+  localStorage.setItem('toDos', JSON.stringify(toDos));
+}
+
+function getToDos() {
+  toDos = JSON.parse(localStorage.getItem('toDos'));
+}
+
+// Loads toDos and populates the screen if there is any toDo
+function loadToDos() {
+  if (localStorage.getItem('toDos') !== null) {
+    getToDos();
+  }
+  console.log(toDos);
+  toDos.forEach((toDo) => {
+    toDoCardCreator(toDo);
+    const { projectName } = toDo;
+    addProjectToForm(projectName);
+    addProjectToDom(projectName);
+  });
 }
 
 export default function mainPageCreator() {
@@ -399,4 +422,7 @@ export default function mainPageCreator() {
 
   // Adding new project
   addProject(addNewProjectButton);
+
+  // Imports old toDos if there is any
+  loadToDos();
 }

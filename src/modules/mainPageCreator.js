@@ -3,7 +3,7 @@ import today from '../img/today.svg';
 import inbox from '../img/inbox.svg';
 import upcoming from '../img/upcoming.svg';
 import add_project from '../img/add_project.svg';
-import { toDoFactory } from './toDoCreator';
+import trash from '../img/trash.svg';
 
 const toDos = [];
 const projects = {};
@@ -85,12 +85,21 @@ function removeClass(element, elementClass) {
   element.classList.remove(elementClass);
 }
 
+// Todo factory function
+const toDoFactory = (title, description, notes, dueDate, priority, projectName) => ({
+  title,
+  description,
+  notes,
+  dueDate,
+  priority,
+  projectName,
+});
+
 // Gets form data and creats a to do object
 function getFormData() {
   const form = document.querySelector('.to-do-form');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log(e.target[1].value);
     const toDo = toDoFactory(
       e.target[1].value,
       e.target[2].value,
@@ -114,13 +123,43 @@ function addProjectToForm(projectName) {
   appendElement(projectSelection, option);
 }
 
-// Adds new project to projectList
+// Adds new project
 function addProject(buttonName) {
   buttonName.addEventListener('click', () => {
     const projectName = prompt('Please enter new project name');
     projects[projectName] = [];
     addProjectToForm(projectName);
   });
+}
+
+// Creates to do card and appends it to dom
+function toDoCardCreator(toDo) {
+  const toDoCard = newElementCreator('div');
+
+  const isCompleted = newElementCreator('input');
+  addType(isCompleted, 'checkbox');
+  addClass(isCompleted, 'isCompleted');
+  appendElement(toDoCard, isCompleted);
+
+  const keys = Object.keys(toDo);
+  keys.forEach((key) => {
+    const newElement = newElementCreator('div');
+    if (key === 'priority') {
+      addClass(newElement, toDo[`${key}`]);
+    }
+    addContent(newElement, toDo[`${key}`]);
+    appendElement(toDoCard, newElement);
+  });
+
+  const deleteButton = newElementCreator('div');
+  const deleteButtonSvg = newElementCreator('img');
+  addClass(deleteButton, 'delete-button');
+  addClass(deleteButtonSvg, 'delete-button-svg');
+  addSrc(deleteButtonSvg, trash);
+  addAlt(deleteButton, 'trash sing');
+  AddTitle(deleteButton, 'Delete task');
+  appendElement(toDoCard, deleteButton);
+  appendElement(deleteButton, deleteButtonSvg);
 }
 
 export default function mainPageCreator() {

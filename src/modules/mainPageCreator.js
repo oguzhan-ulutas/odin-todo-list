@@ -135,6 +135,7 @@ function addProjectToDom(projectName) {
   projectDiv.addEventListener('click', () => {
     toDos.forEach((toDo) => {
       if (projectName === toDo.projectName) {
+        clearCards();
         toDoCardCreator(toDo);
       }
     });
@@ -184,6 +185,12 @@ function toDoCardCreator(toDo) {
 }
 
 // Clears main container div
+function clearCards() {
+  const mainContainer = document.querySelector('.main-container');
+  while (mainContainer.firstChild) {
+    mainContainer.removeChild(mainContainer.firstChild);
+  }
+}
 
 export default function mainPageCreator() {
   // Selecting main content div

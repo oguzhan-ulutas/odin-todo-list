@@ -133,9 +133,10 @@ function addProjectToDom(projectName) {
 
   // Adds event listener to projectDiv
   projectDiv.addEventListener('click', () => {
+    clearCards();
     toDos.forEach((toDo) => {
       if (projectName === toDo.projectName) {
-        clearCards();
+        console.log(toDo.projectName);
         toDoCardCreator(toDo);
       }
     });

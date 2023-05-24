@@ -108,6 +108,7 @@ function getFormData() {
       e.target[6].value,
     );
     toDos.push(toDo);
+    toDoCardCreator(toDo);
     removeClass(document.querySelector('.to-do-form-container'), 'active');
     removeClass(document.querySelector('#overlay'), 'active');
   });
@@ -129,6 +130,15 @@ function addProjectToDom(projectName) {
   addClass(projectDiv, 'project-div');
   addContent(projectDiv, projectName);
   appendElement(container, projectDiv);
+
+  // Adds event listener to projectDiv
+  projectDiv.addEventListener('click', () => {
+    toDos.forEach((toDo) => {
+      if (projectName === toDo.projectName) {
+        toDoCardCreator(toDo);
+      }
+    });
+  });
 }
 
 // Adds new project
@@ -142,6 +152,7 @@ function addProject(buttonName) {
 
 // Creates to do card and appends it to dom
 function toDoCardCreator(toDo) {
+  const mainContainer = document.querySelector('.main-container');
   const toDoCard = newElementCreator('div');
 
   const isCompleted = newElementCreator('input');
@@ -159,7 +170,7 @@ function toDoCardCreator(toDo) {
     appendElement(toDoCard, newElement);
   });
 
-  const deleteButton = newElementCreator('div');
+  const deleteButton = newElementCreator('button');
   const deleteButtonSvg = newElementCreator('img');
   addClass(deleteButton, 'delete-button');
   addClass(deleteButtonSvg, 'delete-button-svg');
@@ -168,7 +179,11 @@ function toDoCardCreator(toDo) {
   AddTitle(deleteButton, 'Delete task');
   appendElement(toDoCard, deleteButton);
   appendElement(deleteButton, deleteButtonSvg);
+
+  appendElement(mainContainer, toDoCard);
 }
+
+// Clears main container div
 
 export default function mainPageCreator() {
   // Selecting main content div

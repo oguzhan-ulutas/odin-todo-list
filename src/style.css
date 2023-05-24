@@ -39,8 +39,14 @@ body {
   background-color: var(--nav-bg-color);
 }
 
-.main-content {
+.main-container {
   grid-area: 2 / 2 / 3 / 3;
+  margin: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 1rem;
 }
 
 .footer {
@@ -170,6 +176,10 @@ body {
 
 .projects-container {
   padding-left: 1vh;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 3vh;
 }
 
 #content > div.nav > div.projects-container > div {
@@ -179,4 +189,26 @@ body {
 }
 .project-button-svg:hover {
   width: 5vh;
+}
+
+div.projects-title-div > h3 {
+  font-size: 13px;
+}
+
+.project-div {
+  margin-left: 2vh;
+}
+
+.main-container > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+
+  font-size: 1.5rem;
+  background-color: rgb(91, 209, 215, 0.1);
+}
+
+.main-container > div > div {
+  min-width: 12%;
 }

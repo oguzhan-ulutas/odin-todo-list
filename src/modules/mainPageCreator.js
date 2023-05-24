@@ -6,7 +6,6 @@ import add_project from '../img/add_project.svg';
 import trash from '../img/trash.svg';
 
 const toDos = [];
-const projects = {};
 
 // Selects an element in the dom by css selectors
 function elementSelector(selector) {
@@ -123,12 +122,21 @@ function addProjectToForm(projectName) {
   appendElement(projectSelection, option);
 }
 
+// Adds new projects to dom
+function addProjectToDom(projectName) {
+  const container = document.querySelector('.projects-container');
+  const projectDiv = newElementCreator('div');
+  addClass(projectDiv, 'project-div');
+  addContent(projectDiv, projectName);
+  appendElement(container, projectDiv);
+}
+
 // Adds new project
 function addProject(buttonName) {
   buttonName.addEventListener('click', () => {
     const projectName = prompt('Please enter new project name');
-    projects[projectName] = [];
     addProjectToForm(projectName);
+    addProjectToDom(projectName);
   });
 }
 

@@ -439,8 +439,22 @@ export default function mainPageCreator() {
   addContent(inboxText, 'Inbox');
   appendElement(inboxDiv, inboxText);
 
-  // Adding inboxDiv functionality. It will list todays' tasks.
+  // Adding inbox functionality. It will list tasks until today.
   inboxDiv.addEventListener('click', () => {
+    clearCards();
+    const date = new Date();
+    const start = startOfDay(date);
+    const end = addDays(start, 1);
+    toDos.forEach((toDo) => {
+      const toDoDate = new Date(toDo.dueDate);
+      if (date < toDoDate) {
+        toDoCardCreator(toDo);
+      }
+    });
+  });
+
+  // Adding todayDiv functionality. It will list todays' tasks.
+  todayDiv.addEventListener('click', () => {
     clearCards();
     const date = new Date();
     const start = startOfDay(date);

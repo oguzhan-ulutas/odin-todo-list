@@ -1,3 +1,4 @@
+import { addDays, startOfDay, format, addWeeks } from 'date-fns';
 import taskButton from '../img/plus-circle.svg';
 import today from '../img/today.svg';
 import inbox from '../img/inbox.svg';
@@ -142,6 +143,7 @@ function addProjectToDom(projectName) {
   const container = document.querySelector('.projects-container');
   const projectDiv = newElementCreator('div');
   addClass(projectDiv, `project-${className}`);
+  addClass(projectDiv, 'project-holder');
   const projectTitle = newElementCreator('div');
   addClass(projectTitle, `project-title-${className}`);
   addContent(projectTitle, projectName);
@@ -437,6 +439,20 @@ export default function mainPageCreator() {
   addContent(inboxText, 'Inbox');
   appendElement(inboxDiv, inboxText);
 
+  // Adding inboxDiv functionality. It will list todays' tasks.
+  inboxDiv.addEventListener('click', () => {
+    clearCards();
+    const date = new Date();
+    const start = startOfDay(date);
+    const end = addDays(start, 1);
+    toDos.forEach((toDo) => {
+      const toDoDate = new Date(toDo.dueDate);
+      if (start < toDoDate && end > toDoDate) {
+        toDoCardCreator(toDo);
+      }
+    });
+  });
+
   // Populate todayDiv
   addClass(todayDiv, 'today-div');
   appendElement(timeBasedContainer, todayDiv);
@@ -484,6 +500,4 @@ export default function mainPageCreator() {
 
   // Imports old toDos if there is any
   loadToDos();
-
-  deleteProjectFromForm('Home Renovation');
 }

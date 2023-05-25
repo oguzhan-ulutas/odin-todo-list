@@ -187,6 +187,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 80%;
 }
 .project-button-svg:hover {
   width: 5vh;
@@ -230,10 +231,18 @@ div.projects-title-div > h3 {
   text-decoration: line-through;
 }
 
-#content > div.nav > div.projects-container > div:nth-child(2) > button > img {
+#content > div.nav > div.projects-container > div > button > img {
   width: 15px;
 }
 
-[value='Home Renovation'] {
-  background-color: #db4c3f;
+div.projects-container > div > button {
+  border: none;
+}
+
+div.projects-container > div > button > img:hover {
+  width: 4vh;
+}
+
+.project-holder {
+  max-width: 80%;
 }

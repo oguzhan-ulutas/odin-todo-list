@@ -246,3 +246,7 @@ div.projects-container > div > button > img:hover {
 .project-holder {
   max-width: 80%;
 }
+
+#content > div.main-container > div {
+  background-color: #246fe0;
+}

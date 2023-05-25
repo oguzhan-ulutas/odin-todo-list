@@ -86,13 +86,14 @@ function removeClass(element, elementClass) {
 }
 
 // Todo factory function
-const toDoFactory = (title, description, notes, dueDate, priority, projectName) => ({
+const toDoFactory = (title, description, notes, dueDate, priority, projectName, isDone) => ({
   title,
   description,
   notes,
   dueDate,
   priority,
   projectName,
+  isDone,
 });
 
 // Gets form data and creats a to do object
@@ -213,6 +214,12 @@ function toDoCardCreator(toDo) {
     cardDivs.forEach((card) => {
       card.classList.toggle('completed');
     });
+    console.log(toDo.isDone);
+    if (isCompleted.checked) {
+      toDo.isDone = true;
+    } else {
+      toDo.isDone = false;
+    }
   });
 
   const keys = Object.keys(toDo);
@@ -223,6 +230,9 @@ function toDoCardCreator(toDo) {
       addClass(newElement, toDo[`${key}`]);
     }
     addContent(newElement, toDo[`${key}`]);
+    if (toDo.isDone) {
+      addClass(newElement, 'completed');
+    }
     appendElement(toDoCard, newElement);
   });
 
@@ -244,6 +254,7 @@ function toDoCardCreator(toDo) {
   });
 
   appendElement(mainContainer, toDoCard);
+
   toDoNumber++;
 }
 
@@ -443,8 +454,6 @@ export default function mainPageCreator() {
   inboxDiv.addEventListener('click', () => {
     clearCards();
     const date = new Date();
-    const start = startOfDay(date);
-    const end = addDays(start, 1);
     toDos.forEach((toDo) => {
       const toDoDate = new Date(toDo.dueDate);
       if (date < toDoDate) {
@@ -465,6 +474,17 @@ export default function mainPageCreator() {
         toDoCardCreator(toDo);
       }
     });
+  });
+
+  // Adding upComingDiv functionality. It will list all the tasks by ascending order
+  upcomingDiv.addEventListener('click', () => {
+    toDos.forEach((toDo) => {
+      const dateFloat = parseFloat(toDo.dueDate.replaceAll('-', ''));
+      toDo.date = dateFloat;
+    });
+    toDos.sort((a, b) => a.date - b.date);
+    clearCards();
+    toDos.forEach((toDo) => toDoCardCreator(toDo));
   });
 
   // Populate todayDiv

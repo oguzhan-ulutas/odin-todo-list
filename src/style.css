@@ -208,8 +208,24 @@ div.projects-title-div > h3 {
 
   font-size: 1.5rem;
   background-color: rgb(91, 209, 215, 0.1);
+  min-width: 80%;
 }
 
 .main-container > div > div {
   min-width: 12%;
+}
+
+.low {
+  color: rgb(158, 235, 70);
+}
+
+.medium {
+  color: rgb(240, 191, 76);
+}
+.high {
+  color: rgb(245, 151, 148);
+}
+
+.completed {
+  text-decoration: line-through;
 }

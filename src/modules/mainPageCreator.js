@@ -153,18 +153,28 @@ function addProject(buttonName) {
 }
 
 // Creates to do card and appends it to dom
+let toDoNumber = 0;
 function toDoCardCreator(toDo) {
+  console.log(toDoNumber);
   const mainContainer = document.querySelector('.main-container');
   const toDoCard = newElementCreator('div');
 
   const isCompleted = newElementCreator('input');
   addType(isCompleted, 'checkbox');
-  addClass(isCompleted, 'isCompleted');
+  addClass(isCompleted, `is-completed-${toDoNumber}`);
   appendElement(toDoCard, isCompleted);
+  isCompleted.addEventListener('click', (e) => {
+    const cardNumber = e.target.classList.value.split('-')[2];
+    const cardDivs = document.querySelectorAll(`[class$="${cardNumber}"]`);
+    cardDivs.forEach((card) => {
+      card.classList.toggle('completed');
+    });
+  });
 
   const keys = Object.keys(toDo);
   keys.forEach((key) => {
     const newElement = newElementCreator('div');
+    addClass(newElement, `${key}-${toDoNumber}`);
     if (key === 'priority') {
       addClass(newElement, toDo[`${key}`]);
     }
@@ -183,6 +193,7 @@ function toDoCardCreator(toDo) {
   appendElement(deleteButton, deleteButtonSvg);
 
   appendElement(mainContainer, toDoCard);
+  toDoNumber++;
 }
 
 // Clears main container div
@@ -207,7 +218,6 @@ function loadToDos() {
   if (localStorage.getItem('toDos') !== null) {
     getToDos();
   }
-  console.log(toDos);
   toDos.forEach((toDo) => {
     toDoCardCreator(toDo);
     const { projectName } = toDo;

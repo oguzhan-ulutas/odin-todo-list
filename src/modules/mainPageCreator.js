@@ -158,6 +158,7 @@ function toDoCardCreator(toDo) {
   console.log(toDoNumber);
   const mainContainer = document.querySelector('.main-container');
   const toDoCard = newElementCreator('div');
+  addClass(toDoCard, `to-do-${toDoNumber}`);
 
   const isCompleted = newElementCreator('input');
   addType(isCompleted, 'checkbox');
@@ -185,12 +186,19 @@ function toDoCardCreator(toDo) {
   const deleteButton = newElementCreator('button');
   const deleteButtonSvg = newElementCreator('img');
   addClass(deleteButton, 'delete-button');
-  addClass(deleteButtonSvg, 'delete-button-svg');
+  addClass(deleteButtonSvg, `delete-button-svg-${toDoNumber}`);
   addSrc(deleteButtonSvg, trash);
   addAlt(deleteButton, 'trash sing');
   AddTitle(deleteButton, 'Delete task');
   appendElement(toDoCard, deleteButton);
   appendElement(deleteButton, deleteButtonSvg);
+  deleteButton.addEventListener('click', (e) => {
+    const cardNumber = e.target.classList.value.split('-')[3];
+    const toDoCard = document.querySelector(`.to-do-${cardNumber}`);
+    toDoCard.remove();
+    toDos.splice(cardNumber, 1);
+    storeToDos();
+  });
 
   appendElement(mainContainer, toDoCard);
   toDoNumber++;

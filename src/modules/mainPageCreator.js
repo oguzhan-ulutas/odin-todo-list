@@ -117,23 +117,65 @@ function getFormData() {
 
 // Adds a project to form project element as select
 function addProjectToForm(projectName) {
+  const className = projectName.replace(/ /g, '-').toLowerCase();
   const projectSelection = document.querySelector('.project-select');
   const option = newElementCreator('option');
   addContent(option, `${projectName}`);
+  addClass(option, `option-${className}`);
   addValue(option, `${projectName}`);
   appendElement(projectSelection, option);
 }
 
+function deleteProjectFromForm(className) {
+  const option = document.querySelector(`.option-${className}`);
+  option.remove();
+}
+
+function deleteProjectFromDom(className) {
+  const div = document.querySelector(`.project-${className}`);
+  div.remove();
+}
+
 // Adds new projects to dom
 function addProjectToDom(projectName) {
+  const className = projectName.replace(/ /g, '-').toLowerCase();
   const container = document.querySelector('.projects-container');
   const projectDiv = newElementCreator('div');
-  addClass(projectDiv, 'project-div');
-  addContent(projectDiv, projectName);
+  addClass(projectDiv, `project-${className}`);
+  const projectTitle = newElementCreator('div');
+  addClass(projectTitle, `project-title-${className}`);
+  addContent(projectTitle, projectName);
+  appendElement(projectDiv, projectTitle);
   appendElement(container, projectDiv);
 
+  // Creating project delete button
+  const deleteButton = newElementCreator('button');
+  const deleteButtonSvg = newElementCreator('img');
+  addClass(deleteButton, `${className}`);
+  addClass(deleteButtonSvg, `${className}`);
+  addSrc(deleteButtonSvg, trash);
+  addAlt(deleteButton, 'trash sing');
+  AddTitle(deleteButton, 'Delete project. Deletes all related tasks. Refresh for deleteing tasks');
+  appendElement(projectDiv, deleteButton);
+  appendElement(deleteButton, deleteButtonSvg);
+
+  // adding event listener to delete button
+  deleteButton.addEventListener('click', (e) => {
+    const className = e.target.classList.value;
+    deleteProjectFromDom(className);
+    deleteProjectFromForm(className);
+
+    toDos.forEach((toDo, i) => {
+      const toDoProjectName = toDo.projectName.replace(/ /g, '-').toLowerCase();
+      if (className === toDoProjectName) {
+        toDos.splice(i, 1);
+      }
+    });
+    storeToDos();
+  });
+
   // Adds event listener to projectDiv
-  projectDiv.addEventListener('click', () => {
+  projectTitle.addEventListener('click', () => {
     clearCards();
     toDos.forEach((toDo) => {
       if (projectName === toDo.projectName) {
@@ -155,7 +197,6 @@ function addProject(buttonName) {
 // Creates to do card and appends it to dom
 let toDoNumber = 0;
 function toDoCardCreator(toDo) {
-  console.log(toDoNumber);
   const mainContainer = document.querySelector('.main-container');
   const toDoCard = newElementCreator('div');
   addClass(toDoCard, `to-do-${toDoNumber}`);
@@ -443,4 +484,6 @@ export default function mainPageCreator() {
 
   // Imports old toDos if there is any
   loadToDos();
+
+  deleteProjectFromForm('Home Renovation');
 }

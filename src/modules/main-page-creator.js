@@ -1,91 +1,32 @@
-import { addDays, startOfDay, format, addWeeks } from 'date-fns';
+import { addDays, startOfDay } from 'date-fns';
 import taskButton from '../img/plus-circle.svg';
 import today from '../img/today.svg';
 import inbox from '../img/inbox.svg';
 import upcoming from '../img/upcoming.svg';
 import add_project from '../img/add_project.svg';
 import trash from '../img/trash.svg';
+import {
+  elementSelector,
+  newElementCreator,
+  addClass,
+  addContent,
+  appendElement,
+  addSrc,
+  addAlt,
+  addTitle,
+  addId,
+  addType,
+  addName,
+  addPlaceholder,
+  isRequired,
+  addValue,
+  removeClass,
+  clearCards,
+} from './building-blocks';
 
 let toDos = [];
 
-// Selects an element in the dom by css selectors
-function elementSelector(selector) {
-  const selectedElement = document.querySelector(selector);
-  return selectedElement;
-}
-
-// Create new html elements
-function newElementCreator(tag) {
-  const newElement = document.createElement(tag);
-  return newElement;
-}
-
-// Adds class to an element
-function addClass(element, elementClass) {
-  element.classList.add(elementClass);
-}
-
-// Adds content
-function addContent(element, content) {
-  element.textContent = content;
-}
-
-// Appends a child element to a parent
-function appendElement(parent, child) {
-  parent.appendChild(child);
-}
-
-// Adds src to an element
-function addSrc(element, source) {
-  element.src = source;
-}
-
-// Adds alt attribute to an img element
-function addAlt(element, alternativeText) {
-  element.alt = alternativeText;
-}
-
-// Adds title attribute to an element
-function AddTitle(element, titleAttribute) {
-  element.title = titleAttribute;
-}
-
-// Adds id attribute to an element
-function addId(element, idAttribute) {
-  element.id = idAttribute;
-}
-
-// Adds type attribute to an element
-function addType(element, typeAttribute) {
-  element.type = typeAttribute;
-}
-
-// Adds name attribute to an element
-function addName(element, nameAttribute) {
-  element.name = nameAttribute;
-}
-
-// Adds name attribute to an element
-function addPlaceholder(element, placeholderAttribute) {
-  element.placeholder = placeholderAttribute;
-}
-
-// Toggles input elements required attribute
-function isRequired(element) {
-  element.required ? (element.required = false) : (element.required = true);
-}
-
-// Adds name attribute to an element
-function addValue(element, valueAttribute) {
-  element.value = valueAttribute;
-}
-
-// Removes  a class from classList
-function removeClass(element, elementClass) {
-  element.classList.remove(elementClass);
-}
-
-// Create toDoNumber
+// Create toDo id
 const counterCreator = () => {
   let count = 0;
   return () => count++;
@@ -110,7 +51,7 @@ const toDoFactory = (title, description, notes, dueDate, priority, projectName) 
   };
 };
 
-// Gets form data and creats a to do object
+// Gets form data and creates a to do object
 function getFormData() {
   const form = document.querySelector('.to-do-form');
   form.addEventListener('submit', (e) => {
@@ -172,7 +113,7 @@ function addProjectToDom(projectName) {
   addClass(deleteButtonSvg, `${className}`);
   addSrc(deleteButtonSvg, trash);
   addAlt(deleteButton, 'trash sing');
-  AddTitle(deleteButton, 'Delete project. Deletes all related tasks. Refresh for deleteing tasks');
+  addTitle(deleteButton, 'Delete project. Deletes all related tasks. Refresh for deleteing tasks');
   appendElement(projectDiv, deleteButton);
   appendElement(deleteButton, deleteButtonSvg);
 
@@ -257,7 +198,7 @@ function toDoCardCreator(toDo) {
   addClass(deleteButtonSvg, `delete-button-svg-${toDo.id}`);
   addSrc(deleteButtonSvg, trash);
   addAlt(deleteButton, 'trash sing');
-  AddTitle(deleteButton, 'Delete task');
+  addTitle(deleteButton, 'Delete task');
   appendElement(toDoCard, deleteButton);
   appendElement(deleteButton, deleteButtonSvg);
   deleteButton.addEventListener('click', (e) => {
@@ -274,14 +215,6 @@ function toDoCardCreator(toDo) {
   }
 
   appendElement(mainContainer, toDoCard);
-}
-
-// Clears main container div
-function clearCards() {
-  const mainContainer = document.querySelector('.main-container');
-  while (mainContainer.firstChild) {
-    mainContainer.removeChild(mainContainer.firstChild);
-  }
 }
 
 // Local storage functions for ToDos
@@ -342,7 +275,7 @@ export default function mainPageCreator() {
   addClass(taskButtonSvg, 'task-button-svg');
   addSrc(taskButtonSvg, taskButton);
   addAlt(addNewTaskButton, 'plus sing');
-  AddTitle(addNewTaskButton, 'Add new task');
+  addTitle(addNewTaskButton, 'Add new task');
   appendElement(header, addNewTaskButton);
   appendElement(addNewTaskButton, taskButtonSvg);
 
@@ -374,12 +307,12 @@ export default function mainPageCreator() {
   isRequired(nameInput);
   appendElement(toDoFormFieldset, nameInput);
 
-  const describtionInput = newElementCreator('input');
-  addType(describtionInput, 'text');
-  addClass(describtionInput, 'describtion-input');
-  addName(describtionInput, 'task-describtion');
-  addPlaceholder(describtionInput, 'Describtion');
-  appendElement(toDoFormFieldset, describtionInput);
+  const descriptionInput = newElementCreator('input');
+  addType(descriptionInput, 'text');
+  addClass(descriptionInput, 'description-input');
+  addName(descriptionInput, 'task-description');
+  addPlaceholder(descriptionInput, 'Description');
+  appendElement(toDoFormFieldset, descriptionInput);
 
   const notesInput = newElementCreator('input');
   addType(notesInput, 'text');
@@ -546,11 +479,11 @@ export default function mainPageCreator() {
   addClass(projectButtonSvg, 'project-button-svg');
   addSrc(projectButtonSvg, add_project);
   addAlt(addNewProjectButton, 'plus sing');
-  AddTitle(addNewProjectButton, 'Add new project');
+  addTitle(addNewProjectButton, 'Add new project');
   appendElement(projectsTitleDiv, addNewProjectButton);
   appendElement(addNewProjectButton, projectButtonSvg);
 
-  // Geting new task form data and creating an object from it
+  // Getting new task form data and creating an object from it
   getFormData();
 
   // Adding new project

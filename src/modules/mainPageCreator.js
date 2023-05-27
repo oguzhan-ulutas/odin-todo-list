@@ -85,16 +85,30 @@ function removeClass(element, elementClass) {
   element.classList.remove(elementClass);
 }
 
+// Create toDoNumber
+const counterCreator = () => {
+  let count = 0;
+  return () => count++;
+};
+
+const counter = counterCreator();
+
 // Todo factory function
-const toDoFactory = (title, description, notes, dueDate, priority, projectName, isDone) => ({
-  title,
-  description,
-  notes,
-  dueDate,
-  priority,
-  projectName,
-  isDone,
-});
+const toDoFactory = (title, description, notes, dueDate, priority, projectName) => {
+  const isDone = false;
+  const id = counter();
+
+  return {
+    title,
+    description,
+    notes,
+    dueDate,
+    priority,
+    projectName,
+    isDone,
+    id,
+  };
+};
 
 // Gets form data and creats a to do object
 function getFormData() {
@@ -109,7 +123,7 @@ function getFormData() {
       e.target[5].value,
       e.target[6].value,
     );
-    toDos.push(toDo);
+    toDos.splice(toDo.id, 0, toDo);
     storeToDos();
     toDoCardCreator(toDo);
     removeClass(document.querySelector('.to-do-form-container'), 'active');
@@ -192,54 +206,55 @@ function addProjectToDom(projectName) {
 function addProject(buttonName) {
   buttonName.addEventListener('click', () => {
     const projectName = prompt('Please enter new project name');
+    if (!projectName) {
+      return;
+    }
     addProjectToForm(projectName);
     addProjectToDom(projectName);
   });
 }
 
 // Creates to do card and appends it to dom
-let toDoNumber = 0;
 function toDoCardCreator(toDo) {
   const mainContainer = document.querySelector('.main-container');
   const toDoCard = newElementCreator('div');
-  addClass(toDoCard, `to-do-${toDoNumber}`);
+  addClass(toDoCard, `to-do-${toDo.id}`);
 
   const isCompleted = newElementCreator('input');
   addType(isCompleted, 'checkbox');
-  addClass(isCompleted, `is-completed-${toDoNumber}`);
+  addClass(isCompleted, `is-completed-${toDo.id}`);
   appendElement(toDoCard, isCompleted);
   isCompleted.addEventListener('click', (e) => {
     const cardNumber = e.target.classList.value.split('-')[2];
-    const cardDivs = document.querySelectorAll(`[class$="${cardNumber}"]`);
-    cardDivs.forEach((card) => {
-      card.classList.toggle('completed');
-    });
-    console.log(toDo.isDone);
+    const cardDiv = document.querySelector(`.to-do-${cardNumber}`);
+    cardDiv.classList.toggle('completed');
+
     if (isCompleted.checked) {
       toDo.isDone = true;
+      storeToDos();
     } else {
       toDo.isDone = false;
+      storeToDos();
     }
   });
 
   const keys = Object.keys(toDo);
   keys.forEach((key) => {
-    const newElement = newElementCreator('div');
-    addClass(newElement, `${key}-${toDoNumber}`);
-    if (key === 'priority') {
-      addClass(newElement, toDo[`${key}`]);
+    if (key !== 'id' && key !== 'isDone') {
+      const newElement = newElementCreator('div');
+      addClass(newElement, `${key}-${toDo.id}`);
+      addContent(newElement, toDo[`${key}`]);
+      if (key === 'priority') {
+        addClass(newElement, toDo[`${key}`]);
+      }
+      appendElement(toDoCard, newElement);
     }
-    addContent(newElement, toDo[`${key}`]);
-    if (toDo.isDone) {
-      addClass(newElement, 'completed');
-    }
-    appendElement(toDoCard, newElement);
   });
 
   const deleteButton = newElementCreator('button');
   const deleteButtonSvg = newElementCreator('img');
   addClass(deleteButton, 'delete-button');
-  addClass(deleteButtonSvg, `delete-button-svg-${toDoNumber}`);
+  addClass(deleteButtonSvg, `delete-button-svg-${toDo.id}`);
   addSrc(deleteButtonSvg, trash);
   addAlt(deleteButton, 'trash sing');
   AddTitle(deleteButton, 'Delete task');
@@ -253,9 +268,12 @@ function toDoCardCreator(toDo) {
     storeToDos();
   });
 
-  appendElement(mainContainer, toDoCard);
+  if (toDo.isDone) {
+    addClass(toDoCard, 'completed');
+    isCompleted.checked = true;
+  }
 
-  toDoNumber++;
+  appendElement(mainContainer, toDoCard);
 }
 
 // Clears main container div
@@ -280,15 +298,21 @@ function loadToDos() {
   if (localStorage.getItem('toDos') !== null) {
     getToDos();
   }
+  const projectList = [];
   toDos.forEach((toDo) => {
     toDoCardCreator(toDo);
     const { projectName } = toDo;
-    addProjectToForm(projectName);
-    addProjectToDom(projectName);
+
+    if (!projectList.includes(projectName)) {
+      addProjectToForm(projectName);
+      addProjectToDom(projectName);
+    }
+    projectList.push(projectName);
   });
 }
 
 export default function mainPageCreator() {
+  // storeToDos();
   // Selecting main content div
   const contentDiv = elementSelector('#content');
 

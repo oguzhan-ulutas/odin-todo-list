@@ -1,4 +1,4 @@
-import { addDays, startOfDay } from 'date-fns';
+import { addDays, format, startOfDay } from 'date-fns';
 import taskButton from '../img/plus-circle.svg';
 import today from '../img/today.svg';
 import inbox from '../img/inbox.svg';
@@ -31,13 +31,15 @@ const counterCreator = () => {
   let count = 0;
   return () => count++;
 };
-
 const counter = counterCreator();
 
 // Todo factory function
-const toDoFactory = (title, description, notes, dueDate, priority, projectName) => {
+const toDoFactory = (title, description, notes, date, priority, projectName) => {
   const isDone = false;
   const id = counter();
+
+  const dateLong = new Date(date);
+  const dueDate = format(dateLong, 'dd/MMM/yy');
 
   return {
     title,
@@ -48,6 +50,7 @@ const toDoFactory = (title, description, notes, dueDate, priority, projectName) 
     projectName,
     isDone,
     id,
+    dueDate,
   };
 };
 
@@ -65,6 +68,7 @@ function getFormData() {
       e.target[6].value,
     );
     toDos.splice(toDo.id, 0, toDo);
+    console.log(toDo);
     storeToDos();
     toDoCardCreator(toDo);
     removeClass(document.querySelector('.to-do-form-container'), 'active');
@@ -181,7 +185,7 @@ function toDoCardCreator(toDo) {
 
   const keys = Object.keys(toDo);
   keys.forEach((key) => {
-    if (key !== 'id' && key !== 'isDone') {
+    if (key !== 'id' && key !== 'isDone' && key !== 'dateLong') {
       const newElement = newElementCreator('div');
       addClass(newElement, `${key}-${toDo.id}`);
       addContent(newElement, toDo[`${key}`]);
@@ -411,9 +415,10 @@ export default function mainPageCreator() {
   inboxDiv.addEventListener('click', () => {
     clearCards();
     const date = new Date();
+
     toDos.forEach((toDo) => {
       const toDoDate = new Date(toDo.dueDate);
-      if (date < toDoDate) {
+      if (date >= toDoDate) {
         toDoCardCreator(toDo);
       }
     });
@@ -427,7 +432,9 @@ export default function mainPageCreator() {
     const end = addDays(start, 1);
     toDos.forEach((toDo) => {
       const toDoDate = new Date(toDo.dueDate);
-      if (start < toDoDate && end > toDoDate) {
+      console.log(toDoDate);
+      console.log(start.getTime());
+      if (start.getTime() === toDoDate.getTime()) {
         toDoCardCreator(toDo);
       }
     });
@@ -435,11 +442,7 @@ export default function mainPageCreator() {
 
   // Adding upComingDiv functionality. It will list all the tasks by ascending order
   upcomingDiv.addEventListener('click', () => {
-    toDos.forEach((toDo) => {
-      const dateFloat = parseFloat(toDo.dueDate.replaceAll('-', ''));
-      toDo.date = dateFloat;
-    });
-    toDos.sort((a, b) => a.date - b.date);
+    toDos.sort((a, b) => a.dateLong - b.dateLong);
     clearCards();
     toDos.forEach((toDo) => toDoCardCreator(toDo));
   });

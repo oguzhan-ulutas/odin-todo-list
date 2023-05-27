@@ -1,6 +1,6 @@
 # odin-todo-list
 
-[The Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-todo-list) exercise to learn about html forms.
+[The Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-todo-list) exercise to practice what I learn so far.
 
 [Live Preview](https://oguzhan-ulutas.github.io/odin-todo-list/)
 

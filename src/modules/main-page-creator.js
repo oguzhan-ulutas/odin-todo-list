@@ -76,7 +76,7 @@ function getFormData() {
   });
 }
 
-// Adds a project to form project element as select
+// Adds a project to form project element as select option
 function addProjectToForm(projectName) {
   const className = projectName.replace(/ /g, '-').toLowerCase();
   const projectSelection = document.querySelector('.project-select');
@@ -348,9 +348,12 @@ export default function mainPageCreator() {
   appendElement(priority, optionHigh);
 
   const projectSelection = newElementCreator('select');
+  const emptyOption = newElementCreator('option');
   addName(projectSelection, 'project-selection');
   addClass(projectSelection, 'project-select');
   appendElement(toDoFormFieldset, projectSelection);
+  addValue(emptyOption, '');
+  appendElement(projectSelection, emptyOption);
 
   const buttonContainer = newElementCreator('div');
   addClass(buttonContainer, 'form-buttons');

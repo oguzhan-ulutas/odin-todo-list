@@ -28,8 +28,14 @@ let toDos = [];
 
 // Create toDo id
 const counterCreator = () => {
-  let count = 0;
-  return () => count++;
+  let count = 1;
+  if (localStorage.getItem('lastCount')) {
+    count = localStorage.getItem('lastCount') + 1;
+  }
+  return () => {
+    localStorage.setItem('lastCount', count);
+    return count++;
+  };
 };
 const counter = counterCreator();
 

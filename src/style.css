@@ -247,3 +247,9 @@ div.projects-container > div > button:hover {
 div["class^=to-do"] {
   box-shadow: 0px 5px 5px 5px rgb(118, 127, 166, 0.5);
 }
+
+@media screen and (max-width: 700px) {
+  :root {
+    font-size: 5px;
+  }
+}

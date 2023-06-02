@@ -140,6 +140,7 @@ function addProjectToDom(projectName) {
       }
     });
     storeToDos();
+    loadToDos();
   });
 
   // Adds event listener to projectDiv
